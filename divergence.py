@@ -68,6 +68,7 @@ for n in range(Udiv):
     diag_list[n] = max(D)
 
 np.save("eigen-divergence.npy",diag_list)
+np.save("U-divergence.npy",U)
 
 plt.figure(1)
 plt.plot(U,diag_list,'o')

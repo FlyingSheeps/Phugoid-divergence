@@ -1,3 +1,3 @@
-/image/
-/npydata/
+*.png
+*.npy
 /venv/

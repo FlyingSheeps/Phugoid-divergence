@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
 from scipy.linalg import eig, det
 from scipy import interpolate
 import sympy as sp
@@ -41,7 +40,7 @@ dx = x[1]-x[0]
 GIp = f_GIp(x)
 he = f_he(x)
 c = f_c(x)
-Cm = -0.2
+Cm = -0.13
 CL0 = 1.0
 theta_mode1 = abs(f_theta_mode1(x))
 thetax_mode1 =  np.gradient(theta_mode1,dx,axis=0)
@@ -84,7 +83,8 @@ for n in range(Udiv):
     D,V = eig(K)
     diag_list[n] = max(D)
 
-np.save("eigen-phugpid-divergence"+str(Cm)+".npy",diag_list)
+np.save("eigen-phugpid-divergence.npy",diag_list)
+np.save("U-phugpid-divergence.npy",U)
 
 plt.figure(1)
 plt.plot(U,diag_list,'o')
