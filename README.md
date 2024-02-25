@@ -6,11 +6,15 @@
 あくまで特定の現象のみを計算したものであるため，ここで計算される速度以下で飛行しても必ずしも安全ではないことをご留意ください．
 
 # 導入方法
-まずpythonの動く環境を用意してください．
-次に，必要なモジュールをインストールするために，requirements.txtを利用してください．
+まずpythonとgitの動く環境を用意してください．
+次に，このリポジトリをクローンしてください．
+```
+git clone https://github.com/FlyingSheeps/Phugoid-divergence.git
+```
+最後に必要なモジュールをインストールするために，requirements.txtを利用してください．
 使い方は以下のとおりです．
 ```
- pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 これによって必要なモジュールはすべてインストールされ，pythonプログラムが実行可能になります．
 
