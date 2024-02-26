@@ -1,0 +1,342 @@
+\documentclass{jarticle}
+\usepackage[a4paper, margin=2.5cm]{geometry} % 余白の調整
+\usepackage{amsmath} % 数式用パッケージ
+\usepackage{ascmac}
+\usepackage{fancybox}
+\usepackage{bm}
+
+
+\title{フゴイドモードと連成するダイバージェンスモードの理論と具体的計算}
+\author{中村亮介 (@nagoyakasheep) }
+\date{\today} % もしくは日付を直接入力
+
+\begin{document}
+
+\maketitle
+
+\section{はじめに}
+
+文章をここに書きます。
+
+\section{ダイバージェンスとは}
+
+最初にダイバージェンスの直感的な定義を示します．
+\begin{itembox}[l]{ダイバージェンスの直感的定義}
+    ダイバージェンスとは，翼のねじれに対して大きくなる揚力によるねじれ不安定化と弾性力による復元力のバランスが崩れることで，翼の捩れが止まらなくなる現象
+\end{itembox}
+
+この定義を数式で表すためには，翼に生じるねじり力（モーメント）を計算する必要があります．
+大まかに空気力と弾性力のモーメントがありますが，まずは翼に生じる空気力によるモーメントを計算します．
+座標系は図\ref{chod}の通り，前縁を原点に，後縁方向に軸をとります．
+
+最終的には空力中心を使った議論をしたいのですが，まずは風圧中心$X_\mathrm{cp}$に揚力がかかっているという一番わかりやすい場合を考えます．
+この場合はねじり中心$ch_\mathrm{e}$まわりのねじり上げを正としたモーメントは
+\begin{equation}
+    T = -\frac{1}{2}\rho U^2 c C_L (X_\mathrm{cp} - ch_\mathrm{e})
+\end{equation}
+となります．ねじりモーメントなので，Torsionから$T$をとります．
+続いて，空力中心$h_\mathrm{nw}$を使って前縁からの距離を空力中心からの距離に座標変換を行います．
+\begin{equation}
+    T = -\frac{1}{2}\rho U^2 c C_L ((X_\mathrm{cp}-ch_\mathrm{nw}) - (ch_\mathrm{e}-ch_\mathrm{nw}))
+\end{equation}
+これを整理すると空力中心周りのモーメントと空力中心に生じる空気力によるねじり中心周りのモーメントをに分けることができます．
+それを空力中心周りのモーメント係数を使って書き直すと以下の通り書けます．
+\begin{equation}
+    \begin{split}
+        T =& -\frac{1}{2}\rho U^2 c C_L (X_\mathrm{cp}-ch_\mathrm{nw}) + \frac{1}{2}\rho U^2 c C_L  (ch_\mathrm{e}-ch_\mathrm{nw}) \\
+          =& \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 C_L  (h_\mathrm{e}-h_\mathrm{nw})
+    \end{split}
+\end{equation}
+このモーメントの書き方が静的な空力弾性における標準的な空気力モーメントの書き方になります．
+
+続いて，ねじれの効果を考えます．このテキストでは翼のねじれ角は$\vartheta$と書きます．
+まずは簡単のためにねじれによるモーメントは，弾性係数$K$に比例するとします．
+また，ねじれることで迎角が変化して揚力係数が変化します．その変化率は揚力傾斜$a=2\pi$として，ねじれる前の揚力係数は$C_{L_0}$とします．
+これらの効果を加味して翼に働くねじりモーメントを考えると
+\begin{equation}
+    T = \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 (C_{L_0} + a\vartheta)  (h_\mathrm{e}-h_\mathrm{nw}) - K \vartheta
+\end{equation}
+となります．これが最も基本的な静的な空力弾性モーメントになります．
+
+翼の断面の慣性モーメントを1とすると，上記のモーメントを使った断面の運動方程式は以下の通りとなります．静的な問題を解くため，慣性モーメントの値は今重要ではありません．
+\begin{equation}
+    \ddot{\vartheta} = \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 (C_{L_0} + a\vartheta)  (h_\mathrm{e}-h_\mathrm{nw}) - K \vartheta
+\end{equation}
+
+ここで，最初に書いたダイバージェンスの定義を思い出しましょう．
+\begin{itembox}[l]{ダイバージェンスの直感的定義}
+    ダイバージェンスとは，翼のねじれに対して大きくなる揚力によるねじれ不安定化と弾性力による復元力のバランスが崩れることで，翼の捩れが止まらなくなる現象
+\end{itembox}
+運動方程式から考えると，$\vartheta$が増加した時に$\ddot{\vartheta}$が増加する場合，その$\vartheta$の増加を止める術はありません．
+これは一つのダイバージェンスの数式的定義として見ることができますね．
+そのため，数式でダイバージェンスの定義を書き直すと，以下のように書くことができます．
+\begin{itembox}[l]{ダイバージェンスの数式での定義}
+    ねじりモーメント$T$に比例するねじれ角の角速度$\ddot{\vartheta}$について，
+    \begin{equation*}
+        \frac{\partial \ddot{\vartheta}}{\partial \vartheta} \propto \frac{\partial T}{\partial \vartheta} \geq 0
+    \end{equation*}
+    が成り立つ時翼はダイバージェンスする．特にゼロと等しい場合の飛行速度$U_\mathrm{div}$をダイバージェンス速度という．
+\end{itembox}
+
+今考えている簡単な弾性の場合について，具体的にダイバージェンス速度を計算してみましょう．
+ねじりモーメント$T$を$\vartheta$で微分します．この時，空力中心の定義から$C_m$の効果は消えます．
+\begin{equation}\label{Tv}
+    \frac{\partial T}{\partial \vartheta} = \frac{1}{2}\rho U_\mathrm{div}^2 c^2 a  (h_\mathrm{e}-h_\mathrm{nw}) - K = 0
+\end{equation}
+この式からダイバージェンス速度は
+\begin{equation}
+    U_\mathrm{div} = \sqrt{\frac{K}{\frac{1}{2}\rho c^2 a  (h_\mathrm{e}-h_\mathrm{nw})}}
+\end{equation}
+となります．この式からわかることが2点あります．それは
+\begin{enumerate}
+    \item 空力中心とねじり中心の距離が近いほどダイバージェンス速度は大きい
+    \item ねじり弾性力が強いほどダイバージェンス速度は大きい
+\end{enumerate}
+ということです．特に，空力中心とねじり中心の距離を近くすることは，完全にダイバージェンスの危険性を回避することのできる方法です．
+ただし，後述のフゴイド連成ダイバージェンスやフラッターに対しては悪影響が生じうることをご留意ください．
+
+\section{三次元的な翼のダイバージェンスの計算方法}
+
+前章ではねじり弾性は$K$と単純な比例定数で置いていました．しかし，実際の翼の場合はねじれ角やコード長は一意ではなく翼幅方向に分布しています．
+また，ねじりの弾性力も翼幅方向の微分を含みます．
+そのため，次は弾性力を偏微分で書き換えた場合について計算してみます．
+
+まず，対象とする翼を考えます．対象とする翼は根元で片持ち固定された梁であると考えます．長さは翼根から翼端まで$L$です．
+この時，ねじり剛性$GI_p$を使ってねじり弾性力を以下のように書き換えることができます．翼幅方向に伸びるので$y$について微分します．
+\begin{equation} \label{gip}
+    T = \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 (C_{L_0} + a\vartheta)  (h_\mathrm{e}-h_\mathrm{nw}) + GI_p \frac{\partial^2 \vartheta}{\partial y^2}
+\end{equation}
+この式には付帯条件として以下のねじりの境界条件がつきます．
+\begin{align}
+    \vartheta(0,t) = 0 \\
+    \frac{\partial \vartheta}{\partial y}(L,t) = 0
+\end{align}
+これは翼根固定端，翼端自由端の条件になります．
+
+式(\ref{gip})をもとにダイバージェンスを計算したいですが，前章まではただの変数であった$\vartheta(t)$が関数である$\vartheta(y,t)$となっています．
+そのため，単純に以下の定義を適用することがきません．
+\begin{itembox}[l]{ダイバージェンスの数式での定義}
+    ねじりモーメント$T$に比例するねじれ角の角速度$\ddot{\vartheta}$について，
+    \begin{equation*}
+        \frac{\partial \ddot{\vartheta}}{\partial \vartheta} \propto \frac{\partial T}{\partial \vartheta} \geq 0
+    \end{equation*}
+    が成り立つ時翼はダイバージェンスする．特にゼロと等しい場合の飛行速度$U_\mathrm{div}$をダイバージェンス速度という．
+\end{itembox}
+システムとしての安定性を見る方法を使う必要があります．この方法を使うにあたっては$\vartheta$が関数のままでは扱いが難しいため，有限要素法を用いた離散化を行います．
+
+\subsection{有限要素法による離散化}
+
+有限要素法はある時間と空間の変数を持つ関数を，空間分布を決める形状関数と節点における関数地の時間変化という形で表現します．
+例えば翼幅方向に等間隔に$M$個の節点をとったとして，その節点における関数の値を並べたものを列ベクトル$\bm{\vartheta}(t)$と書くことにします．
+その時，各節点の値をもとに元の関数の値を補間する関数（形状関数）のベクトル$\bm{N}(y)$を使って元の関数は$\vartheta(y,t) = \bm{N}(y)^\top\bm{\vartheta}(t)$と表現できます．
+形状関数には色々とパターンがあり，計算の際にもいくつかテクニックがありますが，それについては参考文献とリポジトリにあるプログラムでご確認いただきたいです．
+
+式(\ref{gip})をもとに，有限要素法を用いた離散化を行います．まずは単純に形状関数を使った表現に変更します．
+\begin{equation} 
+    T = \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 (C_{L_0} + a\bm{N}^\top\bm{\vartheta})  (h_\mathrm{e}-h_\mathrm{nw}) + GI_p \frac{\partial^2 \bm{N}^\top}{\partial y^2}\bm{\vartheta}
+\end{equation}
+この時，空間微分がうまく$\bm{\vartheta}$と分解されていることがわかります．これに左から$\bm{N}$を掛けて，積分します．
+\begin{equation} 
+    \int_0^L \bm{N} T dy = \int_0^L \left\{ \bm{N} \frac{1}{2}\rho U^2 c^2 C_m +  \frac{1}{2}\rho U^2 c^2 (\bm{N}C_{L_0} + a\bm{N}\bm{N}^\top\bm{\vartheta})  (h_\mathrm{e}-h_\mathrm{nw}) + GI_p \bm{N} \frac{\partial^2 \bm{N}^\top}{\partial y^2}\bm{\vartheta} \right\} dy
+\end{equation}
+各項について以下のように表記の代用を行います．
+\begin{align}
+    \bm{T} =& \int_0^L \bm{N} T dy \\
+    \bm{T}_\mathrm{25\%} =& \int_0^L \bm{N} \frac{1}{2}\rho U^2 c^2 C_m dy \\
+    K_\mathrm{aero} \bm{\vartheta} =& \int_0^L  \frac{1}{2}\rho U^2 c^2 a\bm{N}\bm{N}^\top (h_\mathrm{e}-h_\mathrm{nw}) dy \bm{\vartheta} \\
+    K_\mathrm{elastic} \bm{\vartheta} =& \int_0^L GI_p \bm{N} \frac{\partial^2 \bm{N}^\top}{\partial y^2} dy \bm{\vartheta}
+\end{align}
+特に4つ目の弾性の行列については，部分積分によって簡単にすることができます．
+\begin{equation}
+    \begin{split}
+        K_\mathrm{elastic} =&  \int_0^L GI_p \bm{N} \frac{\partial^2 \bm{N}^\top}{\partial y^2} dy \\
+                           =&  \left[ GI_p \bm{N} \frac{\partial \bm{N}^\top}{\partial y} dy  \right]_0^L - \int_0^L GI_p \frac{\partial \bm{N}}{\partial y} \frac{\partial \bm{N}^\top}{\partial y} dy \\
+                           =&  - \int_0^L GI_p \frac{\partial \bm{N}}{\partial y} \frac{\partial \bm{N}^\top}{\partial y} dy
+    \end{split}
+\end{equation}
+今回は性質の良い境界条件が使われているため，途中で生じる原始関数はゼロとなります．
+
+以上の結果をもとに式を書き直すと以下の通り線形な方程式になります．
+\begin{equation}
+    \bm{T} = \bm{T}_\mathrm{25\%} + K_\mathrm{aero} \bm{\vartheta} + K_\mathrm{elastic} \bm{\vartheta}
+\end{equation}
+$\ddot{\vartheta}$も同様に離散化を行うと離散化した後の運動方程式が得られます．
+\begin{align}
+    E\ddot{\bm{\vartheta}} =& \bm{T}_\mathrm{25\%} + K_\mathrm{aero} \bm{\vartheta} + K_\mathrm{elastic} \bm{\vartheta} \\
+    E =& \int_0^L \bm{N}\bm{N}^\top dy
+\end{align}
+ここで，$\bm{T}=\bm{0}$となるような$\bm{\vartheta}$を$\bm{\vartheta}_\mathrm{eq}$として，そこからの変化量$\Delta \bm{\vartheta}$について見ることにすると， 
+\begin{equation}
+    E\Delta\ddot{\bm{\vartheta}} = K_\mathrm{aero} \Delta\bm{\vartheta} + K_\mathrm{elastic} \Delta\bm{\vartheta}
+\end{equation}
+という平衡状態周りの方程式とできます．
+
+\subsection{行列式・固有値を用いた安定限界の判別}
+ところで，ここにある非常に簡単な微分方程式の一般解を計算する時，どうするでしょうか．
+\begin{equation}
+    m\ddot{x}(t) = kx(t)
+\end{equation}
+単位を落としていない学部2年生であれば$x(t) = e^{\lambda t}$と置いて$\lambda$を求めることで計算すると思います．
+例えば今回の場合$\lambda^2 = k/m$となるため，解は次の3つが考えられます．
+\begin{align*}
+    k/m < 0の場合：& \ x(t) = A\sin\sqrt{k/m}t + B\cos\sqrt{k/m}t \\
+    k/m = 0の場合：& \ x(t) = At + B \\
+    k/m > 0の場合：& \ x(t) = Ae^{\sqrt{k/m}t} + Be^{-\sqrt{k/m}t}
+\end{align*}
+この時，$m$は正であるため$A,B$によらず解が発散しないのは$k < 0$の時のみで，安定の限界にあるのは$k=0 \Leftrightarrow \lambda = 0$の時になります．
+
+では，以下の式について同様のことを考えてみましょう．
+\begin{equation}
+    E\Delta\ddot{\bm{\vartheta}} = K_\mathrm{aero} \Delta\bm{\vartheta} + K_\mathrm{elastic} \Delta\bm{\vartheta}
+\end{equation}
+$\Delta\bm{\vartheta} = \bm{C}e^{\lambda t}$とすると，
+\begin{equation}
+    \left\{ E\lambda^2 - (K_\mathrm{aero} + K_\mathrm{elastic}) \right\}\bm{C}e^{\lambda t} = \bm{0}
+\end{equation}
+となります．ここで，安定が限界となる条件は先の例題と同様に$\lambda = 0$であるため，その条件を代入すると以下の式となります．
+\begin{equation}
+    (K_\mathrm{aero} + K_\mathrm{elastic})\bm{C}e^{\lambda t} = \bm{0}
+\end{equation}
+この式は$\bm{C}e^{\lambda t}=0$以外の場合でも成り立つため，$K_\mathrm{aero} + K_\mathrm{elastic}$の行列式はゼロであると考えられます．
+また，行列式がゼロである時，その行列の固有値には少なくとも一つのゼロが含まれるため，この行列の固有値を見ることでも安定性を判別することができます．
+
+最終的にまとめて書くと，以下の条件を満たす時に安定限界であると言えます．
+\begin{itembox}[l]{三次元翼のダイバージェンスの安定限界の近似}
+    有限要素法から得られた空力ねじりモーメント係数行列$K_\mathrm{aero}$，弾性ねじりモーメント係数行列$K_\mathrm{elastic}$の和について，
+    \begin{enumerate}
+        \item 行列式がゼロである時
+        \item 固有値に少なくとも一つのゼロが含まれる時
+    \end{enumerate}
+    のどちらかが成り立つ時，ダイバージェンスの安定限界である．
+\end{itembox}
+
+
+\subsection{実際の計算例}
+
+
+
+
+
+\section{フゴイド連成ダイバージェンス}
+
+最初に示したように，実例として人力飛行機の翼のねじれとフゴイドモードが相互に影響することで安定性が低下する事例があります．
+これについて具体的に計算します．
+
+まずはフゴイドモードの運動方程式を示します．
+\begin{align} 
+    \dot{u} - X_u u + g \theta = 0\\
+    -U\dot{\theta} - Z_u u = 0
+\end{align}
+これは航空機力学入門（白本）を参考に，全機質量が1の場合を考えています．先にも言ったように，静的な問題については慣性の値はゼロでない何でも良いので1としています．
+ここに書かれている$u,\theta$は機体の機体固定座標系で見た前進飛行速度，ピッチ角であり，$U_0$は釣り合い時の$u$のです．
+$X_u,Z_u$は機体固定座標系での並進空気力$X,Z$を$u$によって偏微分していることを意味します．
+$X$はこの後消えるため無視しますが，$Z$については以下のように定義します．航空機では下向きが正なので揚力は負の値です．
+\begin{equation}
+    Z = -\int_{-L}^L \frac{1}{2}\rho U^2 c (C_{L_0} + a\vartheta) dy
+\end{equation}
+フゴイドモードの仮定により迎角$\alpha$による影響は含みません．その代わりにねじれ角$\vartheta$の影響があります．
+
+フゴイドモードに加えてねじれの釣り合いとねじれの影響を追加すると以下の通りとなります．
+\begin{align} 
+    \dot{u} - X_u u + g \theta = X_\vartheta \vartheta \label{X}\\
+    -U\dot{\theta} - Z_u u = Z_\vartheta \vartheta \label{Z} \\
+    \ddot{\vartheta} = T_u u + T_\vartheta \vartheta \label{vt}
+\end{align}
+ここに現れる$T$は式(\ref{gip})を$U \rightarrow u$に調整したもので，以下の通りとなります．
+\begin{equation}
+    T = \frac{1}{2}\rho u^2 c^2 C_m + \frac{1}{2}\rho u^2 c^2 (C_{L_0} + a\vartheta)  (h_\mathrm{e}-h_\mathrm{nw}) + GI_p \frac{\partial^2 \vartheta}{\partial y^2}
+\end{equation}
+ここで式(\ref{X})を時間微分して式(\ref{Z})を代入すると次の式が得られます．
+\begin{align}
+    \ddot{u} = X_u \dot{u} + X_\vartheta \dot{\vartheta} - \frac{g}{U} (Z_u u + Z_\vartheta \vartheta) 
+\end{align}
+今回取り扱う問題は静的な問題のみを取り扱うため，$\dot{u}，\dot{\vartheta}$の影響はないものとするため，式(\ref{vt})と合わせて以下の形に簡単になります．
+\begin{align}
+    \ddot{u} =&  - \frac{g}{U}Z_u u - \frac{g}{U}Z_\vartheta \vartheta \\
+    \ddot{\vartheta} =& T_u u + T_\vartheta \vartheta
+\end{align}
+
+この式に対して行列式を使った安定限界の判別を行います．前章と同様に指数関数を代入すると以下の式が得られます．
+\begin{equation}
+    \left\{
+    \begin{bmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{bmatrix}
+    \lambda^2
+    -
+    \begin{bmatrix}
+        -\frac{g}{U}Z_u & -\frac{g}{U}Z_\vartheta \\
+        T_u & T_\vartheta
+    \end{bmatrix}
+    \right\}
+    \bm{C}e^{\lambda t}
+    =
+    \bm{0}
+\end{equation}
+以上の式において$\lambda=0$とした時の行列式がゼロになる条件を考えることで，フゴイド連成ダイバージェンス速度$U_\mathrm{div2}$を求めることができます．
+\begin{equation}
+    \left|
+    \begin{matrix}
+        -\frac{g}{U_\mathrm{div2}}Z_u & -\frac{g}{U_\mathrm{div2}}Z_\vartheta \\
+        T_u & T_\vartheta
+    \end{matrix}
+    \right|
+    =0
+\end{equation}
+\begin{equation}
+    -\frac{g}{U_\mathrm{div2}} (Z_u T_\vartheta - Z_\vartheta T_u ) = 0
+\end{equation}
+これを変形して，以下の形で安定性判別に使用します．
+\begin{align}\label{phudiv}
+    T_\vartheta = \frac{Z_\vartheta T_u}{Z_u}
+\end{align}
+また各値は具体的には以下の通りとなります．ねじり弾性については簡単のために定数$K$としています．
+\begin{align}
+    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{div2}^2 c^2 a  (h_\mathrm{e}-h_\mathrm{nw}) - K \right\} dy \label{Tv1} \\
+    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{div2}^2 c a dy \\
+    T_u =& \int_{-L}^L \rho U_\mathrm{div2} c^2 \left\{ C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
+    Z_u =& -\int_{-L}^L \rho U_\mathrm{div2} c (C_{L_0} + a\vartheta_\mathrm{eq}) dy
+\end{align}
+式(\ref{Tv1})と式(\ref{Tv})を比較すると，この$T_\vartheta$はダイバージェンスの安定限界を調べるために用いたものと同じであることがわかります．
+そのため，式(\ref{phudiv})の右辺がゼロである場合，つまり$T_\vartheta=0$の時は$U_\mathrm{div2}=U_\mathrm{div}$となります．
+
+また，式(\ref{phudiv})について右辺の値が負である場合は$U_\mathrm{div2} < U_\mathrm{div}$となります．この右辺の正負は$T_u$によって決まります．
+$Z_u,Z_\vartheta$は常に負であることが容易にわかりますが，$T_u$については$C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw})$によって正負が反転します．
+この正負の反転は桁位置$h_\mathrm{e}$と風圧中心$X_\mathrm{cp}$の前後関係によって決まります．
+条件は以下の通りです．
+\begin{enumerate}
+    \item $h_\mathrm{e} > X_\mathrm{cp}$の時$T_u>0$となり，$\frac{Z_\vartheta T_u}{Z_u} > 0$となる．この時ダイバージェンス速度で破壊する．
+    \item $h_\mathrm{e} < X_\mathrm{cp}$の時$T_u<0$となり，$\frac{Z_\vartheta T_u}{Z_u} < 0$となる．この時フゴイド連成ダイバージェンス速度で破壊する．
+\end{enumerate}
+
+\subsection{三次元翼における計算}
+
+ここまでで定性的な結果を示しましたが，実際にフゴイド連成ダイバージェンス速度を計算するには弾性の偏微分に対処する必要があります．
+前章では有限要素法を用いて計算を行いましたが，本問題においては有限要素法を用いて計算を行うと数値計算上の問題が生じます．
+これは，現象としては同じ重みであるフゴイドとねじれについて，それぞれ1次元と150次元という表現のために必要な要素数に大きな差があるため，フゴイドが過小に評価されてしまうからであると考えています．
+
+そこで，離散化ではなくモデルの低次元化を用いることにしました．モデルの低次元化はモード法というものを用います．
+このモード法はねじりの境界条件を満たす空間分布に関する関数（モード）$\phi(y)$を用意して，実際の運動$\vartheta$を$\phi$と時間変化するモードの重み$w(t)$を用いて$\vartheta=\phi w$と近似します．
+このモードは複数使っても良いですが，今回は簡単のために1つのみとします．実際に計算すると一つでも問題ありません．
+モードの計算方法についてはプログラムをご覧ください．
+
+モード法を用いると，$T_\vartheta,Z_\vartheta,T_u,Z_u$それぞれは以下の通りとなります．
+\begin{align}
+    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{div2}^2 c^2 a \phi  (h_\mathrm{e}-h_\mathrm{nw}) - GI_p\left( \frac{\partial \phi}{\partial y} \right)^2 \right\} dy \\
+    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{div2}^2 c a \phi dy \\
+    T_u =& \int_{-L}^L \rho U_\mathrm{div2} c^2 \left\{ C_m +  (C_{L_0} + a\phi w_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
+    Z_u =& -\int_{-L}^L \rho U_\mathrm{div2} c (C_{L_0} + a\phi w_\mathrm{eq}) dy
+\end{align}
+関数$\phi$の積分であるので，得られる結果は単純なスカラーになります．これらからなる復元力行列
+\begin{equation}
+    \begin{bmatrix}
+        -\frac{g}{U}Z_u & -\frac{g}{U}Z_\vartheta \\
+        T_u & T_\vartheta
+    \end{bmatrix}
+\end{equation}
+の行列式・固有値を見ることで計算することができます．
+
+\subsection{具体的な計算例}
+
+\end{document}
