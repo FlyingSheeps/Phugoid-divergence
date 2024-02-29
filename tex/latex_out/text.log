@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p3.9.0-210218-2.6 (utf8.euc) (TeX Live 2021) (preloaded format=platex 2022.1.5)  1 MAR 2024 06:29
+This is e-pTeX, Version 3.141592653-p3.9.0-210218-2.6 (utf8.euc) (TeX Live 2021) (preloaded format=platex 2022.1.5)  1 MAR 2024 06:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -264,26 +264,26 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 165.
  [5]
-File: image/Eigenvalues_of_divergence.png Graphic file (type bmp)
-<image/Eigenvalues_of_divergence.png>
+File: image/Eigenvalues_of_divergence.pdf Graphic file (type pdf)
+<image/Eigenvalues_of_divergence.pdf>
  [6] [7] [8]
-File: image/theta_mode.png Graphic file (type bmp)
-<image/theta_mode.png>
+File: image/theta_mode.pdf Graphic file (type pdf)
+<image/theta_mode.pdf>
  [9]
-File: image/eigenplot.png Graphic file (type bmp)
-<image/eigenplot.png>
+File: image/eigenplot.pdf Graphic file (type pdf)
+<image/eigenplot.pdf>
  [10] [11] (/Users/nakamura_ryosuke/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2587 strings out of 479466
- 36137 string characters out of 5870549
+ 2588 strings out of 479466
+ 36141 string characters out of 5870549
  361944 words of memory out of 5000000
  20251 multiletter control sequences out of 15000+600000
  420344 words of font info for 91 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  68i,16n,74p,352b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /Users/nakamura_ryosuke/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (11 pages, 45556 bytes).
+Output written on /Users/nakamura_ryosuke/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (11 pages, 45600 bytes).

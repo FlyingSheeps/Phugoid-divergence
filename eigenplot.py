@@ -15,7 +15,7 @@ plt.plot(U,diag3,'o')
 plt.legend(["$C_m=0.0$","$C_m=-0.1$","$C_m=-0.2$","$C_m=-0.3$"])
 plt.hlines(0,0,20,linestyles='--')
 plt.grid()
-plt.savefig("tex/image/eigenplot.png")
+plt.savefig("eigenplot.pdf")
 plt.show()
 
 
