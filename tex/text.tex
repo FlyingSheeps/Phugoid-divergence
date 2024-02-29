@@ -4,9 +4,12 @@
 \usepackage{ascmac}
 \usepackage{fancybox}
 \usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+\usepackage{url}
 
 
-\title{フゴイドモードと連成するダイバージェンスモードの理論と具体的計算}
+\title{フゴイドモードと連成するダイバージェンスモード}
 \author{中村亮介 (@nagoyakasheep) }
 \date{\today} % もしくは日付を直接入力
 
@@ -17,6 +20,41 @@
 \section{はじめに}
 
 このテキストでは人力飛行機におけるダイバージェンス現象及びフゴイドと連成したダイバージェンス現象の理論と計算方法を示します。
+
+人力飛行機が墜落する事例の一つとして「ダイバージェンス」と呼ばれるものがあります．
+具体的な例としてはこちらの動画（\url{https://youtu.be/nj_9R-okNrI?si=bDQBGbP_jD7qVWFk}）があります．（筑波大学の皆様．勝手に引き合いに出してしまってすみません．）
+
+飛行の最初の段階ではパワー過剰気味に高速で飛行していきます．（図\ref{tsukuba1}）
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image/tsukuba0111.png}
+    \caption{通常トリムでパワー過剰の高速飛行}
+    \label{tsukuba1}
+\end{figure}
+その後，高度増加を収めるためにパワーはそのままにトリムを一段下げてさらに高速での飛行を続けます．（図\ref{tsukuba2}）
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image/tsukuba0122.png}
+    \caption{機首下げトリムでパワー過剰の高速飛行}
+    \label{tsukuba2}
+\end{figure}
+そして徐々に加速して，最終的に翼のねじり下げが生じます．（図\ref{tsukuba3}）
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image/tsukuba0126.png}
+    \caption{ダイバージェンスの発生}
+    \label{tsukuba3}
+\end{figure}
+
+このように，過剰な速度で飛行した際に翼のねじれが止まらなくなる現象のことをダイバージェンスと呼んでいます．
+このダイバージェンスは空力弾性の研究としては既に十分説明されている現象であり，書籍に収録されている内容でもあります\cite{2019}．
+
+しかし，多くの人力飛行機を設計する学生は学部2年生であり，このダイバージェンスの理論的計算を行うには知識不足である場合が多いです．
+そのため，本テキストではそのダイバージェンスの理論と具体定な計算方法について説明し，より安全な人力飛行機設計を実現することを目標としています．
+
+また，一般的なダイバージェンスに加えて，人力飛行機で見られると言われるフゴイドモードと連成したダイバージェンスモード\cite{takasaki}についてもその理論を明らかにし，具体的な計算例を挙げます．
+
+
 
 
 \section{ダイバージェンスとは}
@@ -33,18 +71,18 @@
 最終的には空力中心を使った議論をしたいのですが，まずは風圧中心$X_\mathrm{cp}$に揚力がかかっているという一番わかりやすい場合を考えます．
 この場合はねじり中心$ch_\mathrm{e}$まわりのねじり上げを正としたモーメントは
 \begin{equation}
-    T = -\frac{1}{2}\rho U^2 c C_L (X_\mathrm{cp} - ch_\mathrm{e})
+    T = -\frac{1}{2}\rho U^2 c C_L (cX_\mathrm{cp} - ch_\mathrm{e})
 \end{equation}
 となります．ねじりモーメントなので，Torsionから$T$をとります．
 続いて，空力中心$h_\mathrm{nw}$を使って前縁からの距離を空力中心からの距離に座標変換を行います．
 \begin{equation}
-    T = -\frac{1}{2}\rho U^2 c C_L ((X_\mathrm{cp}-ch_\mathrm{nw}) - (ch_\mathrm{e}-ch_\mathrm{nw}))
+    T = -\frac{1}{2}\rho U^2 c C_L ((cX_\mathrm{cp}-ch_\mathrm{nw}) - (ch_\mathrm{e}-ch_\mathrm{nw}))
 \end{equation}
 これを整理すると空力中心周りのモーメントと空力中心に生じる空気力によるねじり中心周りのモーメントをに分けることができます．
 それを空力中心周りのモーメント係数を使って書き直すと以下の通り書けます．
 \begin{equation}
     \begin{split}
-        T =& -\frac{1}{2}\rho U^2 c C_L (X_\mathrm{cp}-ch_\mathrm{nw}) + \frac{1}{2}\rho U^2 c C_L  (ch_\mathrm{e}-ch_\mathrm{nw}) \\
+        T =& -\frac{1}{2}\rho U^2 c^2 C_L (X_\mathrm{cp}-h_\mathrm{nw}) + \frac{1}{2}\rho U^2 c C_L  (ch_\mathrm{e}-ch_\mathrm{nw}) \\
           =& \frac{1}{2}\rho U^2 c^2 C_m + \frac{1}{2}\rho U^2 c^2 C_L  (h_\mathrm{e}-h_\mathrm{nw})
     \end{split}
 \end{equation}
@@ -98,8 +136,7 @@
 
 \section{三次元的な翼のダイバージェンスの計算方法}
 
-前章ではねじり弾性は$K$と単純な比例定数で置いていました．しかし，実際の翼の場合はねじれ角やコード長は一意ではなく翼幅方向に分布しています．
-また，ねじりの弾性力も翼幅方向の微分を含みます．
+前章ではねじり弾性は$K$と単純な比例定数で置いていました．しかし，実際の翼の場合はねじりの弾性力は翼幅方向の微分を含みます．
 そのため，次は弾性力を偏微分で書き換えた場合について計算してみます．
 
 まず，対象とする翼を考えます．対象とする翼は根元で片持ち固定された梁であると考えます．長さは翼根から翼端まで$L$です．
@@ -218,14 +255,21 @@ $\Delta\bm{\vartheta} = \bm{C}e^{\lambda t}$とすると，
 具体的な翼、例えば24年の人力飛行機のパラメータで計算してみましょう。
 24年の人力飛行機は片持ち翼で、桁中心は定常飛行時の風圧中心合わせです。根本の口径は100mmで、翼端は40mm、40tを$\pm$45度1組入れています。
 定常飛行時の条件で計算します。
-
 分割数は150分割で、形状関数は一次バー要素として計算します。
 その結果が以下の図\ref{eigen1}です。
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{image/Eigenvalues_of_divergence.png}
+    \caption{速度ごとの係数行列の固有値実部の最大値}
+    \label{eigen1}
+\end{figure}
 
-この結果プロットは横軸に表す飛行速度において、計算の結果得られた150個の固有値のうち一番大きなものをプロットしています。
-最初はすべての固有値が負ですが、おおよそ18 m/sにおいて最大の固有値がゼロ、つまり安定限界になっていることがわかります。
-そのため、今年の人力飛行機のダイバージェンス速度は18 m/sであり、最大で18 m/sまでの高速飛行に耐えることが考えられます。
+この結果プロットは横軸に表す飛行速度において、計算の結果得られた150個の固有値の実部のうち一番大きなものをプロットしています。
+一般に分解の結果得られる固有値は複素数ですが，今回は係数行列が実対称行列であるため得られる固有値は全て実数になります．
+そこで，実部のみを提示しています．
+最初はすべての固有値が負ですが、おおよそ18.8 m/sにおいて最大の固有値がゼロ、つまり安定限界になっていることがわかります。
+そのため、今年の人力飛行機のダイバージェンス速度は18.8 m/sであると考えられます。
 
 \section{フゴイド連成ダイバージェンス}
 
@@ -314,7 +358,17 @@ $X$はこの後消えるため無視しますが，$Z$については以下の�
 また，式(\ref{phudiv})について右辺の値が負である場合は$U_\mathrm{div2} < U_\mathrm{div}$となります．この右辺の正負は$T_u$によって決まります．
 $Z_u,Z_\vartheta$は常に負であることが容易にわかりますが，$T_u$については$C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw})$によって正負が反転します．
 この正負の反転は桁位置$h_\mathrm{e}$と風圧中心$X_\mathrm{cp}$の前後関係によって決まります．
-条件は以下の通りです．
+
+$T$について，当初提示した表現を見てみましょう．
+\begin{equation}
+    T = -\frac{1}{2}\rho u^2 c C_L (cX_\mathrm{cp} - ch_\mathrm{e})
+\end{equation}
+この式を速度$u$について微分すると以下の式が得られます．
+\begin{equation}
+    T_u = -\rho U c C_L (cX_\mathrm{cp} - ch_\mathrm{e})
+\end{equation}
+この式を見ると，風圧中心と桁位置の前後関係が$T_u$の正負に大きな影響を与えることがわかります．
+それを加味して考えると，ダイバージェンスとフゴイド連成ダイバージェンスの条件分岐は以下の通りとなります．
 \begin{enumerate}
     \item $h_\mathrm{e} > X_\mathrm{cp}$の時$T_u>0$となり，$\frac{Z_\vartheta T_u}{Z_u} > 0$となる．この時ダイバージェンス速度で破壊する．
     \item $h_\mathrm{e} < X_\mathrm{cp}$の時$T_u<0$となり，$\frac{Z_\vartheta T_u}{Z_u} < 0$となる．この時フゴイド連成ダイバージェンス速度で破壊する．
@@ -348,5 +402,37 @@ $Z_u,Z_\vartheta$は常に負であることが容易にわかりますが，$T_
 の行列式・固有値を見ることで計算することができます．
 
 \subsection{具体的な計算例}
+
+実際の三次元的な翼に対して，モード抽出ののちにフゴイド連成ダイバージェンス速度の計算を行います．
+先ほどダイバージェンスの計算に使用したパラメータでモードの抽出を行うと，図\ref{mode}が得られます．
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image/theta_mode.png}
+    \caption{ねじりの弾性モード}
+    \label{mode}
+\end{figure}
+図\ref{mode}には固有角振動数の小さなものから順に5つのモードを示しています．特に青色が今回計算に用いた最も緩慢なモードです．
+
+これに基づいて$C_m$の値が$0,-0.1,-0.2,-0.3$の4ケースを計算した結果が図\ref{eigen2}になります．
+$C_m=-0.3$は非現実的な極端な事例ですが，計算上の差がわかりやすくなるためケースとして含めています．
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{image/eigenplot.png}
+    \caption{速度ごとの固有値実部の最大値}
+    \label{eigen2}
+\end{figure}
+このように，$C_m$がある程度の値を超えるまでは通常のダイバージェンスと同じ程度の速度で安定限界になりますが，
+$C_m$が大きくなるとダイバージェンス速度の手前のフゴイド連成のダイバージェンス速度で安定限界になることがわかります．
+今回は$C_{L_0}=1.0$に固定していますので，$C_m$の変化量は風圧中心の位置の変化量に相当します．
+そのため，$|C_m|$が大きくなると風圧中心は後ろに向かって，ある$C_m$において桁位置と風圧中心の位置関係が逆転して，安定限界の飛行速度が下がったと見られます．
+
+この計算においては$C_{L_0}=1.0$と固定しましたが，実際の飛行状況によっては$C_{L_0}$の値は変化します．
+例えば水平飛行を行う縛りであれば，飛行速度が増加した際に釣り合いの揚力係数は減少するべきです．
+
+\begin{thebibliography}{99}
+    \bibitem{2019} 中道二郎，玉山雅人，児玉智，「航空宇宙工学テキストシリーズ　空力弾性学」，日本航空宇宙学会，2019
+    \bibitem{sirohon} 加藤寛一郎，大屋昭男，柄沢研治，「航空機力学入門」，東京大学出版会，1982
+    \bibitem{takasaki} 高嵜浩一，「2022年スカイスポーツシンポのプレゼンPDF」，Flight Logbook，\url{http://flightlogbook.cocolog-nifty.com/logbook/2022/12/post-ffe4a8.html}，2，2024
+\end{thebibliography}
 
 \end{document}

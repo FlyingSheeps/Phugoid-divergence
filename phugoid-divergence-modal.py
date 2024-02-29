@@ -40,7 +40,7 @@ dx = x[1]-x[0]
 GIp = f_GIp(x)
 he = f_he(x)
 c = f_c(x)
-Cm = -0.13
+Cm = -0.3
 CL0 = 1.0
 theta_mode1 = abs(f_theta_mode1(x))
 thetax_mode1 =  np.gradient(theta_mode1,dx,axis=0)
@@ -83,7 +83,7 @@ for n in range(Udiv):
     D,V = eig(K)
     diag_list[n] = max(D)
 
-np.save("eigen-phugpid-divergence.npy",diag_list)
+np.save("eigen-phugpid-divergence3.npy",diag_list)
 np.save("U-phugpid-divergence.npy",U)
 
 plt.figure(1)
@@ -92,5 +92,5 @@ plt.title('Eigenvalues of phugoid-divergence')
 plt.xlabel('Air speed (m/s)')
 plt.ylabel('Maximum real part of eigenvalues')
 plt.grid()
-plt.savefig('Eigenvalues_of_phugoid-divergence-modal'+str(Cm)+'.png')
+plt.savefig('tex/image/Eigenvalues_of_phugoid-divergence-modal'+str(Cm)+'.png')
 plt.show()

@@ -1,20 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-diag1 = np.load("eigen-divergence.npy")
-diag2 = np.load("eigen-phugpid-divergence-0.13.npy")
-diag3 = np.load("eigen-phugpid-divergence-0.2.npy")
+diag0 = np.load("eigen-phugpid-divergence0.npy")
+diag1 = np.load("eigen-phugpid-divergence1.npy")
+diag2 = np.load("eigen-phugpid-divergence2.npy")
+diag3 = np.load("eigen-phugpid-divergence3.npy")
 
-U = np.linspace(0,20,100)
+U = np.load("U-phugpid-divergence.npy")
 plt.figure(1)
-plt.plot(U,diag1*100/6,'o')
+plt.plot(U,diag0,'o')
+plt.plot(U,diag1,'o')
 plt.plot(U,diag2,'o')
 plt.plot(U,diag3,'o')
-plt.legend(["divergence","phugoid-divergence1","phugoid-divergence2"])
-plt.ylim([-200,200])
-plt.hlines(0,0,20)
+plt.legend(["$C_m=0.0$","$C_m=-0.1$","$C_m=-0.2$","$C_m=-0.3$"])
+plt.hlines(0,0,20,linestyles='--')
 plt.grid()
-plt.savefig("eigenplot.png")
+plt.savefig("tex/image/eigenplot.png")
 plt.show()
 
 
