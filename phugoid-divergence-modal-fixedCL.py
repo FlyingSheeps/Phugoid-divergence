@@ -40,7 +40,7 @@ dx = x[1]-x[0]
 GIp = f_GIp(x)
 he = f_he(x)
 c = f_c(x)
-Cm = -0.1
+Cm = -0.3
 CL0 = 1.0
 theta_mode1 = abs(f_theta_mode1(x))
 thetax_mode1 =  np.gradient(theta_mode1,dx,axis=0)
@@ -62,9 +62,6 @@ for n in range(Udiv):
     Ttheta = np.zeros((3,3))
     Ztheta = np.zeros(3)
     Tu = np.zeros(3)
-    #CL0
-    CL0 = 1.0*8.5**2/U[n]**2
-    if CL0 > 1.3: CL0 = 1.0
     #行列の組み立て
     Ttheta[0,0] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode1**2 * dx - GIp * thetax_mode1**2 * dx) #弾性効果
     Ttheta[1,1] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode2**2 * dx - GIp * thetax_mode2**2 * dx) #弾性効果
@@ -86,14 +83,14 @@ for n in range(Udiv):
     D,V = eig(K)
     diag_list[n] = max(D)
 
-np.save("eigen-phugpid-divergence-varCL.npy",diag_list)
+np.save("eigen-phugpid-divergence3.npy",diag_list)
 np.save("U-phugpid-divergence.npy",U)
 
 plt.figure(1)
 plt.plot(U,diag_list,'o')
+plt.title('Eigenvalues of phugoid-divergence')
 plt.xlabel('Air speed (m/s)')
 plt.ylabel('Maximum real part of eigenvalues')
-plt.hlines(0,0,20,linestyles='--')
 plt.grid()
-plt.savefig('Eigenvalues_of_phugoid-divergence-modal-varCL'+str(Cm)+'.pdf')
+plt.savefig('Eigenvalues_of_phugoid-divergence-modal'+str(Cm)+'.pdf')
 plt.show()
