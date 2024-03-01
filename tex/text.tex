@@ -7,6 +7,7 @@
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{float}
 \usepackage{url}
+\usepackage{otf}
 
 
 \title{フゴイドモードと連成するダイバージェンスモードの理論と計算}
@@ -22,9 +23,8 @@
 このテキストでは人力飛行機におけるダイバージェンス現象及びフゴイドと連成したダイバージェンス現象の理論と計算方法を示します．
 
 人力飛行機が墜落する事例の一つとして「ダイバージェンス」と呼ばれるものがあります．
-具体的な例としてはこちらの動画（\url{https://youtu.be/nj_9R-okNrI?si=bDQBGbP_jD7qVWFk}）があります．（筑波大学の皆様．勝手に引き合いに出してしまってすみません．）
-
-その動画の切り抜きを元にその過程を説明します．まず飛行の最初の段階ではパワー過剰気味に高速で飛行していきます．（図\ref{tsukuba1}）
+具体的な例としてはこちらの動画（\url{https://youtu.be/nj_9R-okNrI?si=bDQBGbP_jD7qVWFk}）があります．
+その動画の切り抜きを元にその過程を説明します．まずダイバージェンスの前段階ではパワー過剰気味に高速で飛行しています．（図\ref{tsukuba1}）
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{image/tsukuba0111.png}
@@ -38,11 +38,11 @@
     \caption{機首下げトリムでパワー過剰の高速飛行}
     \label{tsukuba2}
 \end{figure}
-そして徐々に加速して，最終的に翼のねじり下げが生じます．（図\ref{tsukuba3}）
+そして徐々に加速して，機首下げをしながら最終的に翼のねじり下げが生じます．（図\ref{tsukuba3}）
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{image/tsukuba0126.png}
-    \caption{ダイバージェンスの発生}
+    \caption{機首下げとダイバージェンスの発生}
     \label{tsukuba3}
 \end{figure}
 
@@ -50,7 +50,7 @@
 このダイバージェンスは空力弾性の研究としては既に十分説明されている現象であり，書籍に収録されている内容でもあります\cite{2019}．
 
 しかし，多くの人力飛行機を設計する学生は学部2年生であり，このダイバージェンスの理論的計算を行うには知識不足である場合が多いです．
-そのため，本テキストではそのダイバージェンスの理論と具体定な計算方法について説明し，より安全な人力飛行機設計を実現することを目標としています．
+そのため，本テキストではそのダイバージェンスの理論と具体定な計算方法について説明し，より安全な人力飛行機設計に寄与することを目標としています．
 
 また，今取り扱った筑波大学の例ではフゴイドモードと連成したダイバージェンスモード\cite{takasaki}による破壊が生じているのではないか，という指摘もあります．
 そのため，フゴイドモードと連成したダイバージェンスモードの理論も明らかにし，具体的な計算例を通して筑波大学の事例を解析します．
@@ -61,12 +61,12 @@
 
 最初にダイバージェンスの直感的な定義を示します．
 \begin{itembox}[l]{ダイバージェンスの直感的定義}
-    ダイバージェンスとは，翼のねじれに対して復元力が生じず，翼の捩れが止まらなくなる現象．
+    ダイバージェンスとは，翼のねじれに対して復元力が生じず，翼の捩れが止まらなくなる現象である．
 \end{itembox}
 
 この定義を数式で表すためには，翼に生じるねじり力（モーメント）を計算する必要があります．
 大まかに空気力と弾性力のモーメントがありますが，まずは翼に生じる空気力によるモーメントを計算します．
-座標系は図\ref{chod}の通り，前縁を原点に，後縁方向に軸をとります．
+座標系は図\ref{chod}の通り前縁を原点に，後縁方向に軸をとります．
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{image/airfoil.pdf}
@@ -110,7 +110,7 @@
 
 ここで，最初に書いたダイバージェンスの定義を思い出しましょう．
 \begin{itembox}[l]{ダイバージェンスの直感的定義}
-    ダイバージェンスとは，翼のねじれに対して復元力が生じず，翼の捩れが止まらなくなる現象．
+    ダイバージェンスとは，翼のねじれに対して復元力が生じず，翼の捩れが止まらなくなる現象である．
 \end{itembox}
 運動方程式から考えると，$\vartheta$が増加した時に$\ddot{\vartheta}$が増加する場合，その$\vartheta$の増加を止める術はありません．
 これは一つのダイバージェンスの数式的定義として見ることができます．
@@ -170,10 +170,11 @@
 
 \subsection{有限要素法による離散化}
 
-有限要素法はある時間と空間の変数を持つ関数について，その定義域を節点という代表点で細分化し，空間分布を決める形状関数と節点における値の時間変化という形で表現します．
-例えば翼幅方向に等間隔に節点をとったとして，その節点における関数の値を並べたものを列ベクトル$\bm{\vartheta}(t)$と書くことにします．
-それに対して各節点の値をもとに元の関数の値を補間する関数（形状関数）$N(y)$を節点の数だけ定義します．
-そしてその形状関数の列ベクトル$\bm{N}(y)$を作り，それと$\bm{\vartheta}(t)$を使って元の関数は$\vartheta(y,t) = \bm{N}(y)^\top\bm{\vartheta}(t)$と表現できます．
+有限要素法はある時間と空間の変数を持つ関数について，その定義域を節点という代表点で細分化します．
+その節点ごとの空間分布を決める形状関数と関数値の時間変化を考えて，元の関数を表現します．
+例えば翼幅方向に等間隔に節点をとる時を考えます．まず，その節点における関数の値を並べたものを列ベクトル$\bm{\vartheta}(t)$と書くことにします．
+それに対して各節点の値をもとに元の関数の値を補間する関数（形状関数）$N(y)$を節点の数だけ定義して列ベクトル$\bm{N}(y)$とします．
+そしてこの二つを使って元の関数を$\vartheta(y,t) = \bm{N}(y)^\top\bm{\vartheta}(t)$と表現します．
 形状関数には色々とパターンがあり，計算の際にもいくつかテクニックがありますが，それについては参考文献とリポジトリにあるプログラムでご確認いただきたいです．
 ここでは，ある空間的に広がる関数が空間分布と時間変化部分の積という形に分解できたことが重要ですので，その点だけ覚えてもらえれば問題ないです．
 
@@ -337,18 +338,18 @@ $X$はこの後消えるため無視しますが，$Z$については以下の�
     =
     \bm{0}
 \end{equation}
-以上の式において$\lambda=0$とした時の行列式がゼロになる条件を考えることで，フゴイド連成ダイバージェンス速度$U_\mathrm{p-div}$を求めることができます．
+以上の式において$\lambda=0$とした時の行列式がゼロになる条件を考えることで，フゴイド連成ダイバージェンス速度$U_\mathrm{pdiv}$を求めることができます．
 \begin{equation}
     \left|
     \begin{matrix}
-        \frac{g}{U_\mathrm{p-div}}Z_u & \frac{g}{U_\mathrm{p-div}}Z_\vartheta \\
+        \frac{g}{U_\mathrm{pdiv}}Z_u & \frac{g}{U_\mathrm{pdiv}}Z_\vartheta \\
         T_u & T_\vartheta
     \end{matrix}
     \right|
     =0
 \end{equation}
-\begin{equation}
-    \frac{g}{U_\mathrm{p-div}} (Z_u T_\vartheta - Z_\vartheta T_u ) = 0
+\begin{equation}\label{phudiv2}
+    \frac{g}{U_\mathrm{pdiv}} (Z_u T_\vartheta - Z_\vartheta T_u ) = 0
 \end{equation}
 以上の計算から，フゴイド連成ダイバージェンス速度の時
 \begin{equation}
@@ -361,15 +362,15 @@ $X$はこの後消えるため無視しますが，$Z$については以下の�
 \end{align}
 また各値は具体的には以下の通りとなります．ねじり弾性については簡単のために定数$K$としています．
 \begin{align}
-    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{p-div}^2 c^2 a  (h_\mathrm{e}-h_\mathrm{nw}) - K \right\} dy \label{Tv1} \\
-    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{p-div}^2 c a dy \\
-    T_u =& \int_{-L}^L \rho U_\mathrm{p-div} c^2 \left\{ C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
-    Z_u =& -\int_{-L}^L \rho U_\mathrm{p-div} c (C_{L_0} + a\vartheta_\mathrm{eq}) dy
+    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{pdiv}^2 c^2 a  (h_\mathrm{e}-h_\mathrm{nw}) - K \right\} dy \label{Tv1} \\
+    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{pdiv}^2 c a dy \\
+    T_u =& \int_{-L}^L \rho U_\mathrm{pdiv} c^2 \left\{ C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
+    Z_u =& -\int_{-L}^L \rho U_\mathrm{pdiv} c (C_{L_0} + a\vartheta_\mathrm{eq}) dy
 \end{align}
 式(\ref{Tv1})と式(\ref{Tv})を比較すると，この$T_\vartheta$はダイバージェンスの安定限界を調べるために用いたものと同じであることがわかります．
-そのため，式(\ref{phudiv})の右辺がゼロである場合，つまり$T_\vartheta=0$の時は$U_\mathrm{p-div}=U_\mathrm{div}$となります．
+そのため，式(\ref{phudiv})の右辺がゼロである場合，つまり$T_\vartheta=0$の時は$U_\mathrm{pdiv}=U_\mathrm{div}$となります．
 
-また，式(\ref{phudiv})について右辺の値が負である場合は$U_\mathrm{p-div} < U_\mathrm{div}$となります．この右辺の正負は$T_u$によって決まります．
+また，式(\ref{phudiv})について右辺の値が負である場合は$U_\mathrm{pdiv} < U_\mathrm{div}$となります．この右辺の正負は$T_u$によって決まります．
 $Z_u,Z_\vartheta$は常に負であることが容易にわかりますが，$T_u$については$C_m +  (C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw})$によって正負が反転します．
 この正負の反転は桁位置$h_\mathrm{e}$と風圧中心$X_\mathrm{cp}$の前後関係によって決まります．
 
@@ -388,6 +389,30 @@ $T$について，当初提示した表現を見てみましょう．
     \item $h_\mathrm{e} < X_\mathrm{cp}$の時$T_u<0$となり，$\frac{Z_\vartheta T_u}{Z_u} < 0$となる．この時フゴイド連成ダイバージェンス速度で破壊する．
 \end{enumerate}
 
+まず1の場合については，第2章と同様にねじり剛性を上げるか，桁位置を前に寄せることが対策として考えられます．ただし，桁位置が風圧中心より前に行くとフゴイド連成のダイバージェンスに切り替わります．
+
+2の場合については，$c$以外はスパン方向に一定であると仮定して，平均空力翼弦を$\bar{c}$と書くとして式(\ref{phudiv2})を速度について整理すると
+\begin{equation}
+    U_\mathrm{pdiv} = \sqrt{ \frac{K}{\frac{1}{2}\rho S\bar{c}a(h_\mathrm{e}-h_\mathrm{nw})} } \sqrt{\frac{(C_{L_0}+a\vartheta_\mathrm{eq})(h_\mathrm{e}-h_\mathrm{nw})}{-C_m}}
+\end{equation}
+となります．ここで，左辺の一個目の平方根は$U_\mathrm{div}$を長手方向に積分したものと一致するため，$U_\mathrm{div}$と書きます．
+\begin{equation}
+    U_\mathrm{pdiv} = U_\mathrm{div} \sqrt{\frac{(C_{L_0}+a\vartheta_\mathrm{eq})(h_\mathrm{e}-h_\mathrm{nw})}{-C_m}}
+\end{equation}
+桁位置は風圧中心より前なので，$T_u<0$であり，$|C_m| >  |(C_{L_0} + a\vartheta_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw})|$となります．
+そのため，式に残った平方根は1より小さく，常に$U_\mathrm{pdiv} < U_\mathrm{div}$が成り立ちます．
+結果として$U_\mathrm{pdiv}$の上限は$U_\mathrm{div}$となります．
+そして$U_\mathrm{pdiv}$を上限に近づけるには，できる限り$C_m$を小さくすると良いことがわかります．
+
+以上の結果から，フゴイド連成ダイバージェンスに対する定性的な対策として以下の2つが考えられます．
+\begin{enumerate}
+    \item 桁のねじり剛性を大きくすることで，フゴイド連成ダイバージェンス速度の上限を上げる．
+    \item $|C_m|$の小さな翼型を使うことで，上限の範囲内でフゴイド連成ダイバージェンス速度上げる．
+\end{enumerate}
+また，$h_\mathrm{e}-h_\mathrm{nw}$を変更しても分母分子で相殺するため，$U_\mathrm{pdiv}$には特に影響はありません．
+そのため，桁位置については任意に置いても良いという考え方もできます．
+しかし，これについては空力弾性的な動特性に対する影響が私にはわからないため，あまり従来の位置を外さないようにした方が無難と思います．
+
 \subsection{三次元翼における計算}
 
 ここまでで定性的な結果を示しましたが，実際にフゴイド連成ダイバージェンス速度を計算するには弾性の偏微分に対処する必要があります．
@@ -401,10 +426,10 @@ $T$について，当初提示した表現を見てみましょう．
 
 モード法を用いると，$T_\vartheta,Z_\vartheta,T_u,Z_u$それぞれは以下の通りとなります．
 \begin{align}
-    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{p-div}^2 c^2 a \phi  (h_\mathrm{e}-h_\mathrm{nw}) - GI_p\left( \frac{\partial \phi}{\partial y} \right)^2 \right\} dy \\
-    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{p-div}^2 c a \phi dy \\
-    T_u =& \int_{-L}^L \rho U_\mathrm{p-div} c^2 \left\{ C_m +  (C_{L_0} + a\phi w_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
-    Z_u =& -\int_{-L}^L \rho U_\mathrm{p-div} c (C_{L_0} + a\phi w_\mathrm{eq}) dy
+    T_\vartheta =& \int_{-L}^{L} \left\{ \frac{1}{2}\rho U_\mathrm{pdiv}^2 c^2 a \phi  (h_\mathrm{e}-h_\mathrm{nw}) - GI_p\left( \frac{\partial \phi}{\partial y} \right)^2 \right\} dy \\
+    Z_\vartheta =& -\int_{-L}^L \frac{1}{2}\rho U_\mathrm{pdiv}^2 c a \phi dy \\
+    T_u =& \int_{-L}^L \rho U_\mathrm{pdiv} c^2 \left\{ C_m +  (C_{L_0} + a\phi w_\mathrm{eq})  (h_\mathrm{e}-h_\mathrm{nw}) \right\} dy \\
+    Z_u =& -\int_{-L}^L \rho U_\mathrm{pdiv} c (C_{L_0} + a\phi w_\mathrm{eq}) dy
 \end{align}
 関数$\phi$の積分であるので，得られる結果は単純なスカラーになります．これらからなる復元力行列
 \begin{equation}
@@ -435,13 +460,13 @@ $C_m=-0.3$は非現実的な極端な事例ですが，計算上の差がわか�
     \caption{速度ごとの固有値実部の最大値}
     \label{eigen2}
 \end{figure}
-このように，$C_m$がある程度の値を超えるまでは通常のダイバージェンスと同じ程度の速度で安定限界になりますが，
-$C_m$が大きくなるとダイバージェンス速度の手前のフゴイド連成のダイバージェンス速度で安定限界になることがわかります．
+このように，$C_m$がある程度の値を超えるまでは通常のダイバージェンスと同じ程度の速度で安定限界になり，
+それ以降はフゴイド連成のダイバージェンス速度で安定限界になることがわかります．
 今回は$C_{L_0}=1.0$に固定していますので，$C_m$の変化量は風圧中心の位置の変化量に相当します．
-そのため，$|C_m|$が大きくなると風圧中心は後ろに向かって，ある$C_m$において桁位置と風圧中心の位置関係が逆転して，安定限界の飛行速度が下がったと見られます．
+そのため，$C_m$に応じて風圧中心が後ろに移動し，ある$C_m$において桁位置と風圧中心の位置関係が逆転して，安定限界の飛行速度が下がったと見られます．
 
 この計算においては$C_{L_0}=1.0$と固定しましたが，実際の飛行状況によっては$C_{L_0}$の値は変化します．
-例えば水平飛行を想定して，揚力一定の条件を課すと飛行速度が増加した際に釣り合いの揚力係数は減少するべきです．
+例えば水平飛行を想定して揚力一定の条件を課すと，飛行速度が増加した際に釣り合いの揚力係数は減少するべきです．
 
 そこで，$C_m=-0.1$かつ飛行速度8.5 m/sで揚力係数1.0で釣り合う場合において，飛行速度が変動しても揚力が一定になるように揚力係数を変更して計算を行いました．
 その例が図\ref{eigen3}です．失速のことを考慮して，揚力係数は最大1.3までとしています．
@@ -451,11 +476,12 @@ $C_m$が大きくなるとダイバージェンス速度の手前のフゴイド
     \caption{揚力一定での速度ごとの固有値実部の最大値}
     \label{eigen3}
 \end{figure}
-$C_m=-0.1$の場合は図\ref{eigen2}ではダイバージェンス速度で安定限界となっていましたが，飛行速度に合わせた揚力係数の変化を含めるとダイバージェンス速度未満で安定限界となっていることがわかります．
-このように，フゴイド連成のダイバージェンスでは風圧中心の位置が重要であり，特に水平飛行を行う条件で計算すると通常のダイバージェンスではなく，フゴイド連成のダイバージェンスによって安定限界に至ることがわかります．
+$C_m=-0.1$の場合は図\ref{eigen2}ではダイバージェンス速度で安定限界となっていましたが，図\ref{eigen3}ではダイバージェンス速度未満で安定限界となっていることがわかります．
 
-この事象が現れているであろう例としては，1章において示した筑波大学の例があります．ここでは，途中で機首下げにしたことで$C_{L_0}$が減少し，図\ref{tsukuba2}の状態では風圧中心が桁より後ろなっていると考えられます．
-この時，安定限界はフゴイド連成ダイバージェンスになるため，機首下げ運動と同時にねじれが進行するフゴイド連成のダイバージェンスが生じたのではないかと考えられます．
+この事象が現れているであろう例としては，1章において示した筑波大学の例があります．
+筑波大学の主翼設計は桁位置と風圧中心を合わせる方針であるため，定常飛行状態で速度が大きくなった場合はダイバージェンスで破壊します．
+しかし，大会では途中で機首下げにしたことで$C_{L_0}$が減少し，図\ref{tsukuba2}の状態では風圧中心が桁より後ろになったと考えられます．
+この場合は安定限界はフゴイド連成のダイバージェンスになるため，映像のような機首下げ運動と同時にねじれが進行するような運動を生じたのではないかと考えられます．
 
 \section{さいごに}
 
@@ -466,7 +492,7 @@ $C_m=-0.1$の場合は図\ref{eigen2}ではダイバージェンス速度で安�
 
 \begin{thebibliography}{99}
     \bibitem{2019} 中道二郎，玉山雅人，児玉智，「航空宇宙工学テキストシリーズ　空力弾性学」，日本航空宇宙学会，2019
-    \bibitem{takasaki} 高嵜浩一，「2022年スカイスポーツシンポのプレゼンPDF」，Flight Logbook，\url{http://flightlogbook.cocolog-nifty.com/logbook/2022/12/post-ffe4a8.html}，2，2024
+    \bibitem{takasaki} \UTF{9AD9}嵜浩一，「2022年スカイスポーツシンポのプレゼンPDF」，Flight Logbook，\url{http://flightlogbook.cocolog-nifty.com/logbook/2022/12/post-ffe4a8.html}，2，2024
     \bibitem{sirohon} 加藤寛一郎，大屋昭男，柄沢研治，「航空機力学入門」，東京大学出版会，1982
     \bibitem{git} 中村亮介，「Phugoid-divergence」，FlyingSheeps Github repositories，\url{https://github.com/FlyingSheeps/Phugoid-divergence/tree/main}，2，2024
 \end{thebibliography}
