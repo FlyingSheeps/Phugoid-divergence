@@ -51,18 +51,23 @@ wing.csvはヘッダー行とそれに対応する値が列として入ってい
 wing.csvを書き換える場合，まずspanにmm単位の翼根から翼端までの代表点位置を記述して，その代表点位置の示す行に，代表点位置におけるねじり剛性などを入力します．
 不等間隔のデータでも補完して等間隔に修正されて使用されます．これはscipy.interpolate.interp1dの許容するデータであれば問題ないです．
 
-span（スパン方向位置 mm）
-mass（区間の重量 kg）
-EI（上下曲げ剛性 Pa m^4）
-GIp（ねじり剛性 Pa m^4）
+- span：スパン方向位置 (mm)  
+- mass：区間の重量 (kg)  
+- EI：上下曲げ剛性 (Pa m^4)  
+- GIp：ねじり剛性 (Pa m^4)
+- c：コード長 (mm)
+- T.C.：ねじり中心or桁位置 (MAC)
+- Cm：モーメント係数 (-)
+- CL：揚力係数 (-)
+- U0：入力した空力係数を計算した飛行速度 (m/s)
 
-| span | mass | EI   | GIp  | c    | T.C. | Cm   | CL   | CL0  | U0   |
-| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 0    | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |
-| 100  | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |      |
-| 200  | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |      |
-| ⁝ ||||||||||
-| 14800 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |  
-| 14900 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |  
-| 15000 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |  
+| span | mass | EI   | GIp  | c    | T.C. | Cm   | CL   | U0   |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 0    | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |
+| 100  | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |
+| 200  | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |
+| ⁝    |⁝    |⁝    |⁝    |⁝    |⁝    |⁝    |⁝    |⁝    |⁝    |
+| 14800 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |  
+| 14900 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |  
+| 15000 | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX | XXXX |      |  
 
