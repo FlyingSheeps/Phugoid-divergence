@@ -34,17 +34,23 @@ divergence.py
 このプログラムはwing.csvからねじり剛性・桁位置・コード長を読み込んで有限要素法でダイバージェンス速度を計算します．
 計算の結果得られる速度に対する最大固有値プロットのゼロクロス速度がダイバージェンス速度になります．
 
+<img src="tex/image/Eigenvalues_of_divergence.png" width="480">
+
 phugoid-divergence-modal.py
 
 これは計算した弾性モードに基づいてフゴイド運動と連成した場合のダイバージェス速度を計算します．
 飛行速度に応じて揚力が一定になるように揚力係数を調整しながらフゴイド連成ダイバージェンスモードを計算します．
 divergence.pyと同様に，計算の結果得られる速度に対する最大固有値プロットのゼロクロス速度がダイバージェンス速度になります．
 
+<img src="tex/image/Eigenvalues_of_phugoid-divergence-modal-varCL-0.1.png" width="480">
+
 phugoid-divergence-modal-fixedCL.py
 
 これは計算した弾性モードに基づいてフゴイド運動と連成した場合のダイバージェス速度を計算します．
 phugoid-divergence-modal.pyと違って飛行速度に応じて揚力係数を変更しません．そのため，これで計算した場合は上昇飛行をしている状態です．
 テキストで説明のために用いただけの実用性はないプログラムです．
+
+<img src="tex/image/eigenplot.png" width="480">
 
 ## wing.csvの構成
 wing.csvはヘッダー行とそれに対応する値が列として入っているpandasで使用する前提のcsvファイルです．
