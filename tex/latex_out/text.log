@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p3.9.0-210218-2.6 (utf8.euc) (TeX Live 2021) (preloaded format=platex 2022.1.5)  3 MAR 2024 14:37
+This is e-pTeX, Version 3.141592653-p3.9.0-210218-2.6 (utf8.euc) (TeX Live 2021) (preloaded format=platex 2022.1.5)  3 MAR 2024 15:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -338,10 +338,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 514--515
 Here is how much of TeX's memory you used:
  4343 strings out of 479466
  57417 string characters out of 5870549
- 383103 words of memory out of 5000000
+ 383082 words of memory out of 5000000
  21992 multiletter control sequences out of 15000+600000
  420059 words of font info for 101 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  68i,16n,74p,367b,1023s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /Users/nakamura_ryosuke/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (14 pages, 55448 bytes).
+Output written on /Users/nakamura_ryosuke/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (14 pages, 55416 bytes).
