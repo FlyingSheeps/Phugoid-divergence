@@ -12,9 +12,9 @@ print(df)
 
 # 値の取得
 xold = df['span'].values/1000
-GIp = df['torsion'].values
+GIp = df['Gip'].values
 he = df['T.C.'].values
-c = df['chord'].values/1000
+c = df['c'].values/1000
 f_GIp = interpolate.interp1d(xold, GIp, kind='linear')
 f_he = interpolate.interp1d(xold, he, kind='linear')
 f_c = interpolate.interp1d(xold, c, kind='linear')
