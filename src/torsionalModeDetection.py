@@ -10,9 +10,9 @@ import pandas as pd
 df = pd.read_csv("wing.csv")
 print(df)
 xold = df['span'].values/1000
-GIp = df['torsion'].values
+GIp = df['GIp'].values
 mass = df['mass'].values
-c = df['chord'].values/1000
+c = df['c'].values/1000
 f_GIp = interpolate.interp1d(xold, GIp, kind='linear')
 f_mass = interpolate.interp1d(xold, mass, kind='linear')
 f_c = interpolate.interp1d(xold, c, kind='linear')
