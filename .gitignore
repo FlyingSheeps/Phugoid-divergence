@@ -1,3 +1,4 @@
 *.npy
 /venv/
 *.tex
+.DS_Store
