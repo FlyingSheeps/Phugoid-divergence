@@ -29,6 +29,8 @@ torsionalModeDetection.py
 このプログラムはwing.csvからねじり剛性・区間あたりの重量・コード長を読み込んで有限要素法でねじり弾性のモードを計算します．
 計算結果は-modalのつくプログラムで使用されます．
 
+<img src="tex/image/theta_mode.png" width="480">
+
 divergence.py
 
 このプログラムはwing.csvからねじり剛性・桁位置・コード長を読み込んで有限要素法でダイバージェンス速度を計算します．
