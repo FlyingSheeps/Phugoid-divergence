@@ -28,6 +28,10 @@ torsionalModeDetection.py
 
 このプログラムはwing.csvからねじり剛性・区間あたりの重量・コード長を読み込んで有限要素法でねじり弾性のモードを計算します．
 計算結果は-modalのつくプログラムで使用されます．
+実行はsrcディレクトリで以下のように実行してください．
+```
+python3 torsionalModeDetection.py
+```
 
 <img src="tex/image/theta_mode.png" width="480">
 
@@ -35,6 +39,10 @@ divergence.py
 
 このプログラムはwing.csvからねじり剛性・桁位置・コード長を読み込んで有限要素法でダイバージェンス速度を計算します．
 計算の結果得られる速度に対する最大固有値プロットのゼロクロス速度がダイバージェンス速度になります．
+実行はsrcディレクトリで以下のように実行してください．
+```
+python3 divergence.py
+```
 
 <img src="tex/image/Eigenvalues_of_divergence.png" width="480">
 
@@ -43,6 +51,10 @@ phugoid-divergence-modal.py
 これは計算した弾性モードに基づいてフゴイド運動と連成した場合のダイバージェス速度を計算します．
 飛行速度に応じて揚力が一定になるように揚力係数を調整しながらフゴイド連成ダイバージェンスモードを計算します．
 divergence.pyと同様に，計算の結果得られる速度に対する最大固有値プロットのゼロクロス速度がダイバージェンス速度になります．
+実行はsrcディレクトリで以下のように実行してください．
+```
+python3 phugoid-divergence-modal.py
+```
 
 <img src="tex/image/Eigenvalues_of_phugoid-divergence-modal-varCL-0.1.png" width="480">
 
@@ -68,6 +80,7 @@ wing.csvを書き換える場合，まずspanにmm単位の翼根から翼端ま
 - Cm：モーメント係数 (-)
 - CL：揚力係数 (-)
 - U0：入力した空力係数を計算した飛行速度 (m/s)
+U0は最初のセルのみ入寮されていれば十分です．
 
 | span | mass | EI   | GIp  | c    | T.C. | Cm   | CL   | U0   |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
