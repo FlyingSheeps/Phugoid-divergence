@@ -14,13 +14,13 @@ xold = df['span'].values/1000
 GIp = df['GIp'].values
 he = df['T.C.'].values
 c = df['c'].values/1000
-CL0 = df['CL'].values
+CL = df['CL'].values
 Cm = df['Cm'].values
 U0 = df['U0'].values[0]
 f_GIp = interpolate.interp1d(xold, GIp, kind='linear')
 f_he = interpolate.interp1d(xold, he, kind='linear')
 f_c = interpolate.interp1d(xold, c, kind='linear')
-f_CL0 = interpolate.interp1d(xold, CL0, kind='linear')
+f_CL = interpolate.interp1d(xold, CL, kind='linear')
 f_Cm = interpolate.interp1d(xold, Cm, kind='linear')
 
 #モードの読み込み
@@ -46,7 +46,7 @@ GIp = f_GIp(x)
 he = f_he(x)
 c = f_c(x)
 Cm = f_Cm(x)
-CL0 = f_CL0(x)
+CL0 = f_CL(x)
 theta_mode1 = abs(f_theta_mode1(x))
 thetax_mode1 =  np.gradient(theta_mode1,dx,axis=0)
 theta_mode2 = abs(f_theta_mode2(x))
