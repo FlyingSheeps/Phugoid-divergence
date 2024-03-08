@@ -92,7 +92,7 @@ np.save("eigen-phugpid-divergence3.npy",diag_list)
 np.save("U-phugpid-divergence.npy",U)
 
 plt.figure(1)
-plt.plot(U,diag_list,'o')
+plt.plot(U,diag_list)
 plt.title('Eigenvalues of phugoid-divergence')
 plt.xlabel('Air speed (m/s)')
 plt.ylabel('Maximum real part of eigenvalues')

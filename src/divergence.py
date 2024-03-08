@@ -71,7 +71,7 @@ np.save("eigen-divergence.npy",diag_list)
 np.save("U-divergence.npy",U)
 
 plt.figure(1)
-plt.plot(U,diag_list,'o')
+plt.plot(U,diag_list)
 plt.xlabel('Air speed (m/s)')
 plt.ylabel('Maximum real part of eigenvalues')
 plt.hlines(0,0,20,linestyles='--')
