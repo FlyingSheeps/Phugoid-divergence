@@ -11,12 +11,17 @@ print(df)
 
 # 値の取得
 xold = df['span'].values/1000
-GIp = df['GIo'].values
+GIp = df['GIp'].values
 he = df['T.C.'].values
 c = df['c'].values/1000
+CL0 = df['CL'].values
+Cm = df['Cm'].values
+U0 = df['U0'].values[0]
 f_GIp = interpolate.interp1d(xold, GIp, kind='linear')
 f_he = interpolate.interp1d(xold, he, kind='linear')
 f_c = interpolate.interp1d(xold, c, kind='linear')
+f_CL0 = interpolate.interp1d(xold, CL0, kind='linear')
+f_Cm = interpolate.interp1d(xold, Cm, kind='linear')
 
 #モードの読み込み
 temp_mode = np.load("theta_mode.npy")
@@ -40,8 +45,8 @@ dx = x[1]-x[0]
 GIp = f_GIp(x)
 he = f_he(x)
 c = f_c(x)
-Cm = -0.1
-CL0 = 1.0
+Cm = f_Cm(x)
+CL0 = f_CL0(x)
 theta_mode1 = abs(f_theta_mode1(x))
 thetax_mode1 =  np.gradient(theta_mode1,dx,axis=0)
 theta_mode2 = abs(f_theta_mode2(x))
@@ -63,19 +68,19 @@ for n in range(Udiv):
     Ztheta = np.zeros(3)
     Tu = np.zeros(3)
     #CL0
-    CL0 = 1.0*8.5**2/U[n]**2
-    if CL0 > 1.3: CL0 = 1.0
+    CL0 = CL0 * (U0**2/U[n]**2)
+    CL0[CL0 > 1.3] = 1.3 #失速速度より大きな揚力係数を1.3に
     #行列の組み立て
-    Ttheta[0,0] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode1**2 * dx - GIp * thetax_mode1**2 * dx) #弾性効果
-    Ttheta[1,1] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode2**2 * dx - GIp * thetax_mode2**2 * dx) #弾性効果
-    Ttheta[2,2] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode3**2 * dx - GIp * thetax_mode3**2 * dx) #弾性効果
-    Ztheta[0] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode1 * dx)
-    Ztheta[1] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode2 * dx)
-    Ztheta[2] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode3 * dx)
-    Tu[0] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode1 * dx)
-    Tu[1] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode2 * dx)
-    Tu[2] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode3 * dx)
-    Zu = sum(-rho*U[n]*c*CL0 *dx)
+    Ttheta[0,0] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode1**2 - GIp * thetax_mode1**2) * dx
+    Ttheta[1,1] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode2**2 - GIp * thetax_mode2**2) * dx
+    Ttheta[2,2] = sum(0.5*rho*U[n]**2*c**2*(he-0.25)*2*np.pi * theta_mode3**2 - GIp * thetax_mode3**2) * dx
+    Ztheta[0] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode1) * dx
+    Ztheta[1] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode2) * dx
+    Ztheta[2] = sum(-0.5*rho*U[n]**2*c*2*np.pi * theta_mode3) * dx
+    Tu[0] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode1) * dx
+    Tu[1] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode2) * dx
+    Tu[2] = sum(rho*U[n]*c**2*(Cm+(he-0.25)*CL0)*theta_mode3) * dx
+    Zu = sum(-rho*U[n]*c*CL0) * dx
     
     K = np.zeros((4,4))
     K[0,0] = 9.8/U[n]*Zu
@@ -85,6 +90,7 @@ for n in range(Udiv):
     print(K)
     D,V = eig(K)
     diag_list[n] = max(D)
+    
 
 np.save("eigen-phugpid-divergence-varCL.npy",diag_list)
 np.save("U-phugpid-divergence.npy",U)
@@ -95,5 +101,5 @@ plt.xlabel('Air speed (m/s)')
 plt.ylabel('Maximum real part of eigenvalues')
 plt.hlines(0,0,20,linestyles='--')
 plt.grid()
-plt.savefig('Eigenvalues_of_phugoid-divergence-modal-varCL'+str(Cm)+'.pdf')
+plt.savefig('Eigenvalues_of_phugoid-divergence-modal-CL0:'+str(CL0[0])+'U0:'+str(U0)+'.pdf')
 plt.show()

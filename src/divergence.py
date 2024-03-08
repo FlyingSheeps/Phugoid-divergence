@@ -12,7 +12,7 @@ print(df)
 
 # 値の取得
 xold = df['span'].values/1000
-GIp = df['Gip'].values
+GIp = df['GIp'].values
 he = df['T.C.'].values
 c = df['c'].values/1000
 f_GIp = interpolate.interp1d(xold, GIp, kind='linear')
