@@ -60,7 +60,11 @@
 
 \newpage
 
-\section{ダイバージェンスとは}
+\tableofcontents
+
+\newpage
+
+\section{ダイバージェンス現象の定性的解説}
 
 最初にダイバージェンスの直感的な定義を示します．
 \begin{itembox}[l]{ダイバージェンスの直感的定義}
@@ -155,7 +159,7 @@
 ということです．特に，空力中心とねじり中心の距離を近くすることは，完全にダイバージェンスの危険性を回避することのできる方法です．
 ただし，フラッターやその他動的な空力弾性現象に対しては悪影響が生じうることをご留意ください．
 
-\section{三次元的な翼のダイバージェンスの計算方法}
+\section{三次元翼のダイバージェンス速度の計算}
 
 前章ではねじり弾性は$K$と単純な比例定数で置いていました．しかし，実際の翼の場合はねじりの弾性力は翼幅方向の微分を含みます．
 そのため，次は弾性力を偏微分で書き換えた場合について計算してみます．
@@ -275,7 +279,7 @@ $\bm{C}$をゼロでないベクトルとして$\Delta\bm{\vartheta} = \bm{C}e^{
 \end{itembox}
 
 
-\subsection{実際の計算例}
+\subsection{具体的な計算例}
 
 具体的な翼，例えばある人力飛行機のパラメータで計算してみましょう．
 この人力飛行機は片持ち翼で，桁位置は定常飛行時の風圧中心に合わせています．桁直径は根本は100mm，翼端は40mmで40tプリプレグを$\pm$45度1組入れています．
@@ -296,7 +300,7 @@ $\bm{C}$をゼロでないベクトルとして$\Delta\bm{\vartheta} = \bm{C}e^{
 最初はすべての固有値が負ですが，おおよそ18.8 m/sにおいて最大の固有値がゼロ，つまり安定限界になっていることがわかります．
 そのため，この人力飛行機のダイバージェンス速度は18.8 m/sであると考えられます．
 
-\section{フゴイド連成ダイバージェンス}
+\section{フゴイドモードと連成するダイバージェンス現象}
 
 ここまでに通常のダイバージェンスについて計算を行いました．
 しかし，フゴイドモードとダイバージェンスが相互に影響することでさらに安定性が低下する事例があると指摘されています\cite{takasaki}．
@@ -464,7 +468,7 @@ $T$について，当初提示した表現を見てみましょう．
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{image/theta_mode.pdf}
-    \caption{ねじりの弾性モード}
+    \caption{片翼分のねじり弾性モード}
     \label{mode}
 \end{figure}
 図\ref{mode}には固有角振動数の小さなものから順に5つのモードを示しています．特に青色が今回計算に用いた最も緩慢なモードです．
@@ -501,7 +505,7 @@ $C_m=-0.1$の場合は図\ref{eigen2}ではダイバージェンス速度で安�
 しかし，大会では途中で機首下げにしたことで$C_{L_0}$が減少し，図\ref{tsukuba2}の状態では風圧中心が桁より後ろになったと考えられます．
 この場合は安定限界はフゴイド連成のダイバージェンスになるため，映像のような機首下げ運動と同時にねじれが進行するような運動を生じたのではないかと考えられます．
 
-\section{さいごに}
+\section{おわりに}
 
 本テキストではダイバージェンスとフゴイド連成ダイバージェンスについて理論と実際の計算例を示しました．
 本テキストの図表などを計算するために用いたプログラムなどはgithubリポジトリ\cite{git}において公開しています．
@@ -509,11 +513,11 @@ $C_m=-0.1$の場合は図\ref{eigen2}ではダイバージェンス速度で安�
 ただし，この計算結果のみをもとに十分な検討なく限界に近い設計を行うなどの安全に資さない使い方は避けていただきたいです．
 
 \begin{thebibliography}{99}
-    \bibitem{2019} 中道二郎，玉山雅人，児玉智，「航空宇宙工学テキストシリーズ　空力弾性学」，日本航空宇宙学会，2019
-    \bibitem{takasaki2} \UTF{9AD9}嵜浩一，「人力飛行機／高高度無人機特有の飛行力学／空力弾性の連成に関する考察」 ，第23回す回スポーツシンポジウム，\url{http://flightlogbook.cocolog-nifty.com/logbook/files/23rdSSS_presentation_20171205_part0.pdf}
-    \bibitem{takasaki} \UTF{9AD9}嵜浩一，「2022年スカイスポーツシンポのプレゼンPDF」，Flight Logbook，\url{http://flightlogbook.cocolog-nifty.com/logbook/2022/12/post-ffe4a8.html}，2，2024
-    \bibitem{sirohon} 加藤寛一郎，大屋昭男，柄沢研治，「航空機力学入門」，東京大学出版会，1982
-    \bibitem{git} 中村亮介，「Phugoid-divergence」，FlyingSheeps Github repositories，\url{https://github.com/FlyingSheeps/Phugoid-divergence/tree/main}，2，2024
+    \bibitem{2019} 中道二郎，玉山雅人，児玉智，「航空宇宙工学テキストシリーズ　空力弾性学」，日本航空宇宙学会，2019．
+    \bibitem{takasaki2} \UTF{9AD9}嵜浩一，「人力飛行機/高高度無人機特有の飛行力学/空力弾性の連成に関する考察」，第23回スカイスポーツシンポジウム，2017，Available: \url{http://flightlogbook.cocolog-nifty.com/logbook/files/23rdSSS_presentation_20171205_part0.pdf} (accessed Mar. 2024)．
+    \bibitem{takasaki} \UTF{9AD9}嵜浩一，「高高度無人機・人力飛行機のヒュゴイドモード/空力弾性連成運動に対する翼端後退角の効果について」，第27回スカイスポーツシンポジウム，2022，[Online]，Available: \url{http://flightlogbook.cocolog-nifty.com/logbook/2022/12/post-ffe4a8.html} (accessed Feb. 2024)．
+    \bibitem{sirohon} 加藤寛一郎，大屋昭男，柄沢研治，「航空機力学入門」，東京大学出版会，1982．
+    \bibitem{git} 中村亮介，「Phugoid-divergence」，FlyingSheeps Github repositories，\url{https://github.com/FlyingSheeps/Phugoid-divergence/tree/main}， (accessed Feb. 2024)．
 \end{thebibliography}
 
 \end{document}
