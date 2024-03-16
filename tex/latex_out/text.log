@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2024.3.15)  15 MAR 2024 21:12
+This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2024.3.15)  16 MAR 2024 18:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -357,4 +357,4 @@ Here is how much of TeX's memory you used:
  929 hyphenation exceptions out of 8191
  55i,16n,62p,399b,1019s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /home/nagoyakasheep/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (15 pages, 58920 bytes).
+Output written on /home/nagoyakasheep/Documents/Gitprojects/Phugoid-divergence/tex/latex_out/text.dvi (15 pages, 59040 bytes).
